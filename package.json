@@ -1,0 +1,15 @@
+{
+  "name": "test-intereses-vocacionales-unimet",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Test de Intereses Vocacionales UNIMET con manual de marca Centro Mundo X",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^7.1.2"
+  }
+}

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test de Intereses Vocacionales UNIMET</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&family=Roboto+Condensed:wght@300;400;700;900&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="app">
+      <header class="header">
+        <div class="isotipo">
+          <div class="um-logo">
+            <span class="um-text">UM</span>
+          </div>
+        </div>
+        <h1 class="headliner">Test de Intereses Vocacionales UNIMET</h1>
+      </header>
+
+      <main class="container">
+        <!-- Sección de Bienvenida e Información del Alumno -->
+        <section id="intro-section" class="section intro-section">
+          <div class="welcome-content">
+            <p class="subcopy welcome-text">
+              ¡Bienvenido(a) a tu Test de Intereses Vocacionales! En este estudio te
+              haremos 15 afirmaciones y en cada una podrás escoger hasta 2 frases.
+              El objetivo es ayudarte a descubrir tus preferencias y a orientarte
+              hacia las carreras y *minors* de la Universidad Metropolitana que
+              mejor se adapten a ti.
+            </p>
+            <p class="instruction-text">Por favor, ingresa tus datos para comenzar:</p>
+            
+            <div class="form-group">
+              <div class="input-group">
+                <label for="student-name" class="input-label">Nombre Completo:</label>
+                <input
+                  type="text"
+                  id="student-name"
+                  class="input-field"
+                  placeholder="Ej: María Pérez"
+                  required
+                />
+              </div>
+              <div class="input-group">
+                <label for="student-id" class="input-label">Cédula de Identidad:</label>
+                <input
+                  type="text"
+                  id="student-id"
+                  class="input-field"
+                  placeholder="Ej: V-12345678"
+                  required
+                />
+              </div>
+            </div>
+            
+            <button id="start-test-btn" class="btn btn-primary">
+              Comenzar Test
+            </button>
+          </div>
+        </section>
+
+        <!-- Sección del Cuestionario -->
+        <section id="test-section" class="section test-section hidden">
+          <div class="progress-indicator">
+            <span>Pregunta <span id="current-question-number">1</span> de <span id="total-questions">15</span></span>
+          </div>
+          
+          <div class="question-container">
+            <h2 id="question-text" class="titular question-text"></h2>
+            <p class="question-instruction">Puedes seleccionar hasta 2 opciones.</p>
+            <div id="options-container" class="options-container">
+              <!-- Opciones de respuesta se inyectarán aquí -->
+            </div>
+          </div>
+          
+          <div class="navigation-buttons">
+            <button id="prev-question-btn" class="btn btn-secondary" disabled>
+              Anterior
+            </button>
+            <button id="next-question-btn" class="btn btn-primary">
+              Siguiente
+            </button>
+            <button id="submit-test-btn" class="btn btn-success hidden">
+              Finalizar Test
+            </button>
+          </div>
+        </section>
+
+        <!-- Sección de Resultados -->
+        <section id="results-section" class="section results-section hidden">
+          <h2 class="titular results-title">Tus Resultados Vocacionales</h2>
+          
+          <div class="results-content">
+            <div class="congratulations">
+              <p class="subcopy">
+                ¡Felicidades, <span id="results-student-name" class="student-name"></span>!
+                Basado en tus respuestas, este es tu perfil de intereses:
+              </p>
+            </div>
+
+            <div class="profile-section">
+              <h3 class="section-title">Perfil Único Unimetano</h3>
+              <p class="profile-text">
+                Elige una formación que te defina. En la UNIMET, tu camino
+                profesional no está limitado a una sola carrera, sino que puedes
+                construir un perfil único a través de la combinación de tu carrera
+                principal con uno o más minors. Esta visión te prepara para ser un
+                profesional con habilidades multidisciplinarias, capaz de innovar,
+                liderar y adaptarte a los desafíos del mundo laboral.
+              </p>
+            </div>
+
+            <div class="interests-section">
+              <h3 class="section-title">Tus Intereses Principales:</h3>
+              <div id="top-interests-display" class="interests-tags">
+                <!-- Top intereses se inyectarán aquí -->
+              </div>
+            </div>
+
+            <div class="careers-section">
+              <h3 class="section-title">Carreras Sugeridas en la UNIMET:</h3>
+              <ul id="career-suggestions" class="suggestions-list">
+                <!-- Sugerencias de carrera se inyectarán aquí -->
+              </ul>
+            </div>
+
+            <div class="minors-section">
+              <h3 class="section-title">Minors Sugeridos en la UNIMET:</h3>
+              <ul id="minor-suggestions" class="suggestions-list">
+                <!-- Sugerencias de minors se inyectarán aquí -->
+              </ul>
+            </div>
+
+            <div class="contact-info">
+              <p class="contact-text">
+                Este estudio te permite acercarte a tu decisión vocacional y
+                construir tu plan de carrera en la Unimet. Si quieres profundizar
+                más, escríbenos a la
+                <a href="mailto:DDBE@UNIMET.EDU.VE" class="contact-link">DDBE@UNIMET.EDU.VE</a>
+                para que participes en nuestro programa vocacional sin ningún costo.
+              </p>
+            </div>
+          </div>
+          
+          <div class="export-section">
+            <button id="export-results-btn" class="btn btn-primary">
+              Exportar Resultados
+            </button>
+          </div>
+        </section>
+
+        <!-- Sección de Mensajes -->
+        <div id="message-box" class="message-box hidden" role="alert">
+          <strong class="message-title">Mensaje:</strong>
+          <span class="message-content" id="message-text"></span>
+        </div>
+      </main>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
