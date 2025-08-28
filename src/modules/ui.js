@@ -187,14 +187,30 @@ export class UI {
     
     if (recommendations.length > 0) {
       recommendations.forEach((career) => {
-        const li = document.createElement('li');
-        li.innerHTML = `<span class="font-semibold">${career.name}:</span> ${career.description}`;
-        this.elements.careerSuggestions.appendChild(li);
+        const careerCard = document.createElement('div');
+        careerCard.className = 'career-card';
+        
+        careerCard.innerHTML = `
+          <div class="career-header">
+            <h4 class="career-title">${career.name}</h4>
+            <div class="career-badge">🎓 Carrera</div>
+          </div>
+          <p class="career-description">${career.description}</p>
+          <div class="career-action">
+            <span class="career-match">✨ Recomendado para ti</span>
+          </div>
+        `;
+        
+        this.elements.careerSuggestions.appendChild(careerCard);
       });
     } else {
-      const li = document.createElement('li');
-      li.textContent = 'No se encontraron sugerencias de carreras basadas en tus intereses. Considera explorar todas las opciones de la UNIMET.';
-      this.elements.careerSuggestions.appendChild(li);
+      const noResults = document.createElement('div');
+      noResults.className = 'no-results-careers';
+      noResults.innerHTML = `
+        <p>No se encontraron sugerencias específicas de carreras.</p>
+        <p>¡Explora todas las opciones disponibles en la UNIMET!</p>
+      `;
+      this.elements.careerSuggestions.appendChild(noResults);
     }
   }
 
@@ -204,7 +220,7 @@ export class UI {
     if (recommendations.length > 0) {
       recommendations.forEach((minor) => {
         const minorCard = document.createElement('div');
-        minorCard.className = 'minor-card';
+        minorCard.className = 'minor-card-modern';
         
         let subjectsHtml = '';
         if (minor.subjects && minor.subjects.length > 0) {
