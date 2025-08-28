@@ -100,14 +100,15 @@ export class UI {
       }
     }
     
-    // Validar cédula (ahora solo números)
-    if (!studentInfo.id) {
+    // Validar cédula (el input debe ser solo números, pero el resultado final tendrá V-)
+    const rawId = this.elements.studentIdInput.value.trim();
+    if (!rawId) {
       errors.push('La cédula es obligatoria');
     } else {
-      // Validar que sea solo numérica
-      if (!/^\d+$/.test(studentInfo.id.trim())) {
+      // Validar que el input sea solo numérico
+      if (!/^\d+$/.test(rawId)) {
         errors.push('La cédula debe contener solo números');
-      } else if (studentInfo.id.trim().length < 4) {
+      } else if (rawId.length < 4) {
         errors.push('La cédula debe tener al menos 4 dígitos');
       }
     }
@@ -354,6 +355,11 @@ export class UI {
 
   setupCedulaInput() {
     const cedulaInput = this.elements.studentIdInput;
+    
+    if (!cedulaInput) {
+      console.error('Cedula input not found');
+      return;
+    }
     
     // Restringir solo a números
     cedulaInput.addEventListener('input', (e) => {

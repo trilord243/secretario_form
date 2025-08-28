@@ -237,7 +237,7 @@ ${finalPhrase}
       const result = await ApiService.submitTestResults(studentData, testResults);
       return result;
     } catch (error) {
-      console.error('Error submitting results to Google Sheets:', error);
+      console.error('Error submitting results to servver:', error);
       throw error;
     }
   }

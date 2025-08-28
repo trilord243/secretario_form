@@ -1,6 +1,6 @@
-import './style.css'
-import { TestLogic } from './modules/testLogic.js'
-import { UI } from './modules/ui.js'
+import "./style.css";
+import { TestLogic } from "./modules/testLogic.js";
+import { UI } from "./modules/ui.js";
 
 class VocationalTestApp {
   constructor() {
@@ -12,8 +12,8 @@ class VocationalTestApp {
 
   init() {
     // Mostrar la sección de introducción
-    this.ui.showSection('intro');
-    
+    this.ui.showSection("intro");
+
     // Limpiar inputs al cargar
     this.ui.clearInputs();
   }
@@ -28,30 +28,34 @@ class VocationalTestApp {
   startTest() {
     const studentInfo = this.ui.getStudentInfo();
     const validation = this.ui.validateStudentInfo(studentInfo);
-    
+
     if (!validation.isValid) {
-      this.ui.showMessage(validation.errors.join(' '), 'error');
+      this.ui.showMessage(validation.errors.join(" "), "error");
       return;
     }
 
-    this.testLogic.setStudentInfo(studentInfo.name, studentInfo.email, studentInfo.id);
-    this.ui.showSection('test');
+    this.testLogic.setStudentInfo(
+      studentInfo.name,
+      studentInfo.email,
+      studentInfo.id
+    );
+    this.ui.showSection("test");
     this.displayCurrentQuestion();
   }
 
   displayCurrentQuestion() {
     const question = this.testLogic.getCurrentQuestion();
     const selectedAnswers = this.testLogic.getAnswerForCurrentQuestion();
-    
+
     this.ui.displayQuestion(
-      question, 
-      this.testLogic.currentQuestionIndex, 
+      question,
+      this.testLogic.currentQuestionIndex,
       this.testLogic.getTotalQuestions(),
       selectedAnswers
     );
-    
+
     this.ui.updateNavigationButtons(
-      this.testLogic.isFirstQuestion(), 
+      this.testLogic.isFirstQuestion(),
       this.testLogic.isLastQuestion()
     );
   }
@@ -62,7 +66,7 @@ class VocationalTestApp {
     }
 
     this.saveCurrentAnswers();
-    
+
     if (this.testLogic.goToNextQuestion()) {
       this.displayCurrentQuestion();
     } else {
@@ -72,7 +76,7 @@ class VocationalTestApp {
 
   previousQuestion() {
     this.saveCurrentAnswers();
-    
+
     if (this.testLogic.goToPreviousQuestion()) {
       this.displayCurrentQuestion();
     }
@@ -84,24 +88,26 @@ class VocationalTestApp {
     }
 
     this.saveCurrentAnswers();
-    
+
     // Calcular resultados
     this.testLogic.calculateKuderScores();
-    
+
     // Mostrar loader mientras se procesan los datos
-    this.ui.showLoader('Procesando resultados y guardando en Google Sheets...');
-    
-    // Enviar datos a Google Sheets automáticamente
+    this.ui.showLoader("Procesando resultados");
+
     try {
       await this.testLogic.submitResultsToGoogleSheets();
       this.ui.hideLoader();
-      this.ui.showMessage('¡Test completado exitosamente! Resultados guardados en Google Sheets.', 'success');
+      this.ui.showMessage("¡Test completado exitosamente! ", "success");
     } catch (error) {
-      console.error('Error submitting results:', error);
+      console.error("Error submitting results:", error);
       this.ui.hideLoader();
-      this.ui.showMessage('Test completado. Nota: Error al guardar automáticamente en Google Sheets, pero puedes usar el botón "Exportar Resultados".', 'warning');
+      this.ui.showMessage(
+        'Test completado. Nota: Error al guardar automáticamente en , pero puedes usar el botón "Exportar Resultados".',
+        "warning"
+      );
     }
-    
+
     // Mostrar resultados
     this.displayResults();
   }
@@ -109,16 +115,16 @@ class VocationalTestApp {
   validateCurrentAnswers() {
     const question = this.testLogic.getCurrentQuestion();
     const selectedOptions = this.ui.getSelectedOptions(question.id);
-    
+
     if (selectedOptions.length === 0) {
-      const message = this.testLogic.isLastQuestion() 
-        ? 'Por favor, selecciona al menos una opción para la última pregunta antes de finalizar.'
-        : 'Por favor, selecciona al menos una opción antes de continuar.';
-      
+      const message = this.testLogic.isLastQuestion()
+        ? "Por favor, selecciona al menos una opción para la última pregunta antes de finalizar."
+        : "Por favor, selecciona al menos una opción antes de continuar.";
+
       this.ui.showMessage(message);
       return false;
     }
-    
+
     return true;
   }
 
@@ -129,12 +135,12 @@ class VocationalTestApp {
   }
 
   displayResults() {
-    this.ui.showSection('results');
-    
+    this.ui.showSection("results");
+
     const topInterests = this.testLogic.getTopKuderInterests(5);
     const careerRecommendations = this.testLogic.getCareerRecommendations();
     const minorRecommendations = this.testLogic.getMinorRecommendations();
-    
+
     this.ui.displayResults(
       this.testLogic.studentName,
       topInterests,
@@ -147,15 +153,18 @@ class VocationalTestApp {
     try {
       // Solo descargar copia local (los datos ya se guardaron automáticamente al finalizar el test)
       this.testLogic.downloadResults();
-      this.ui.showMessage('Archivo descargado exitosamente.', 'success');
+      this.ui.showMessage("Archivo descargado exitosamente.", "success");
     } catch (error) {
-      console.error('Error downloading results:', error);
-      this.ui.showMessage('Error al descargar el archivo de resultados.', 'error');
+      console.error("Error downloading results:", error);
+      this.ui.showMessage(
+        "Error al descargar el archivo de resultados.",
+        "error"
+      );
     }
   }
 }
 
 // Inicializar la aplicación cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   new VocationalTestApp();
 });
