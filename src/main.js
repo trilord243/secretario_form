@@ -88,15 +88,17 @@ class VocationalTestApp {
     // Calcular resultados
     this.testLogic.calculateKuderScores();
     
-    // Mostrar mensaje de que se están guardando los datos
-    this.ui.showMessage('Procesando resultados y guardando en Google Sheets...', 'info');
+    // Mostrar loader mientras se procesan los datos
+    this.ui.showLoader('Procesando resultados y guardando en Google Sheets...');
     
     // Enviar datos a Google Sheets automáticamente
     try {
       await this.testLogic.submitResultsToGoogleSheets();
+      this.ui.hideLoader();
       this.ui.showMessage('¡Test completado exitosamente! Resultados guardados en Google Sheets.', 'success');
     } catch (error) {
       console.error('Error submitting results:', error);
+      this.ui.hideLoader();
       this.ui.showMessage('Test completado. Nota: Error al guardar automáticamente en Google Sheets, pero puedes usar el botón "Exportar Resultados".', 'warning');
     }
     

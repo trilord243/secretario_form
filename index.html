@@ -4,16 +4,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Test de Intereses Vocacionales UNIMET</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <div id="app">
       <header class="header">
         <div class="header-content">
           <div class="isotipo">
-            <img src="https://sistema-info-d52b6.web.app/assets/unimet-blanco-OX3Fzlu7.svg" alt="Universidad Metropolitana" class="unimet-logo" />
+            <img
+              src="https://sistema-info-d52b6.web.app/assets/unimet-blanco-OX3Fzlu7.svg"
+              alt="Universidad Metropolitana"
+              class="unimet-logo"
+            />
           </div>
           <h1 class="headliner">Test de Intereses Vocacionales UNIMET</h1>
         </div>
@@ -24,17 +31,21 @@
         <section id="intro-section" class="section intro-section">
           <div class="welcome-content">
             <p class="subcopy welcome-text">
-              ¡Bienvenido(a) a tu Test de Intereses Vocacionales! En este estudio te
-              haremos 15 afirmaciones y en cada una podrás escoger hasta 2 frases.
-              El objetivo es ayudarte a descubrir tus preferencias y a orientarte
-              hacia las carreras y *minors* de la Universidad Metropolitana que
-              mejor se adapten a ti.
+              ¡Bienvenido(a) a tu Test de Intereses Vocacionales! En este
+              estudio te haremos 15 afirmaciones y en cada una podrás escoger
+              hasta 2 frases. El objetivo es ayudarte a descubrir tus
+              preferencias y a orientarte hacia las carreras y *minors* de la
+              Universidad Metropolitana que mejor se adapten a ti.
             </p>
-            <p class="instruction-text">Por favor, ingresa tus datos para comenzar:</p>
-            
+            <p class="instruction-text">
+              Por favor, ingresa tus datos para comenzar:
+            </p>
+
             <div class="form-group">
               <div class="input-group">
-                <label for="student-name" class="input-label">Nombre Completo:</label>
+                <label for="student-name" class="input-label"
+                  >Nombre Completo:</label
+                >
                 <input
                   type="text"
                   id="student-name"
@@ -44,7 +55,9 @@
                 />
               </div>
               <div class="input-group">
-                <label for="student-email" class="input-label">Correo Electrónico:</label>
+                <label for="student-email" class="input-label"
+                  >Correo Electrónico:</label
+                >
                 <input
                   type="email"
                   id="student-email"
@@ -54,19 +67,25 @@
                 />
               </div>
               <div class="input-group">
-                <label for="student-id" class="input-label">Cédula de Identidad:</label>
-                <input
-                  type="text"
-                  id="student-id"
-                  class="input-field"
-                  placeholder="Ej: V-12345678"
-                  required
-                  maxlength="20"
-                />
-                <small class="input-help">Formato: V-12345678 (mínimo 4 dígitos después del guión)</small>
+                <label for="student-id" class="input-label"
+                  >Cédula de Identidad:</label
+                >
+                <div class="input-with-prefix">
+                  <span class="input-prefix">V-</span>
+                  <input
+                    type="text"
+                    id="student-id"
+                    class="input-field input-with-prefix-field"
+                    placeholder="12345678"
+                    required
+                    maxlength="15"
+                    pattern="[0-9]*"
+                    inputmode="numeric"
+                  />
+                </div>
               </div>
             </div>
-            
+
             <button id="start-test-btn" class="btn btn-primary">
               Comenzar Test
             </button>
@@ -76,17 +95,22 @@
         <!-- Sección del Cuestionario -->
         <section id="test-section" class="section test-section hidden">
           <div class="progress-indicator">
-            <span>Pregunta <span id="current-question-number">1</span> de <span id="total-questions">15</span></span>
+            <span
+              >Pregunta <span id="current-question-number">1</span> de
+              <span id="total-questions">15</span></span
+            >
           </div>
-          
+
           <div class="question-container">
             <h2 id="question-text" class="titular question-text"></h2>
-            <p class="question-instruction">Puedes seleccionar hasta 2 opciones.</p>
+            <p class="question-instruction">
+              Puedes seleccionar hasta 2 opciones.
+            </p>
             <div id="options-container" class="options-container">
               <!-- Opciones de respuesta se inyectarán aquí -->
             </div>
           </div>
-          
+
           <div class="navigation-buttons">
             <button id="prev-question-btn" class="btn btn-secondary" disabled>
               Anterior
@@ -106,19 +130,24 @@
             <div class="success-icon">🎉</div>
             <h2 class="results-title">¡Test Completado Exitosamente!</h2>
             <p class="results-subtitle">
-              ¡Felicidades, <span id="results-student-name" class="student-name-highlight"></span>!
-              <br>Aquí tienes tu perfil vocacional personalizado.
+              ¡Felicidades,
+              <span
+                id="results-student-name"
+                class="student-name-highlight"
+              ></span
+              >! <br />Aquí tienes tu perfil vocacional personalizado.
             </p>
           </div>
-          
+
           <div class="results-content">
             <div class="profile-hero">
               <div class="profile-card">
                 <h3 class="profile-title">🚀 Tu Perfil Único Unimetano</h3>
                 <p class="profile-description">
-                  En la UNIMET, tu camino profesional va más allá de una carrera tradicional. 
-                  Construye un perfil único combinando tu carrera principal con minors especializados, 
-                  preparándote como un profesional multidisciplinario listo para liderar e innovar.
+                  En la UNIMET, tu camino profesional va más allá de una carrera
+                  tradicional. Construye un perfil único combinando tu carrera
+                  principal con minors especializados, preparándote como un
+                  profesional multidisciplinario listo para liderar e innovar.
                 </p>
               </div>
             </div>
@@ -157,7 +186,8 @@
               <div class="cta-card">
                 <h4 class="cta-title">¿Quieres profundizar más?</h4>
                 <p class="cta-description">
-                  Participa en nuestro programa vocacional personalizado y descubre todas las oportunidades que UNIMET tiene para ti.
+                  Participa en nuestro programa vocacional personalizado y
+                  descubre todas las oportunidades que UNIMET tiene para ti.
                 </p>
                 <a href="mailto:DDBE@UNIMET.EDU.VE" class="cta-button">
                   📧 Contactar DDBE@UNIMET.EDU.VE

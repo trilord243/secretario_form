@@ -1,6 +1,7 @@
 export class UI {
   constructor() {
     this.elements = this.getElements();
+    this.setupCedulaInput();
   }
 
   getElements() {
@@ -77,7 +78,7 @@ export class UI {
     return {
       name: this.elements.studentNameInput.value.trim(),
       email: this.elements.studentEmailInput.value.trim(),
-      id: this.elements.studentIdInput.value.trim()
+      id: 'V-' + this.elements.studentIdInput.value.trim()
     };
   }
 
@@ -99,17 +100,14 @@ export class UI {
       }
     }
     
-    // Validar cédula
+    // Validar cédula (ahora solo números)
     if (!studentInfo.id) {
       errors.push('La cédula es obligatoria');
     } else {
-      // Extraer solo la parte numérica (quitar V-, E-, etc.)
-      const numericId = studentInfo.id.replace(/^[VvEe]-?/, '').trim();
-      
-      // Validar que sea numérica
-      if (!/^\d+$/.test(numericId)) {
-        errors.push('La cédula debe contener solo números después de la letra');
-      } else if (numericId.length < 4) {
+      // Validar que sea solo numérica
+      if (!/^\d+$/.test(studentInfo.id.trim())) {
+        errors.push('La cédula debe contener solo números');
+      } else if (studentInfo.id.trim().length < 4) {
         errors.push('La cédula debe tener al menos 4 dígitos');
       }
     }
@@ -118,6 +116,28 @@ export class UI {
       isValid: errors.length === 0,
       errors: errors
     };
+  }
+
+  // Función para mostrar loader
+  showLoader(message = 'Procesando...') {
+    const loader = document.createElement('div');
+    loader.id = 'loading-overlay';
+    loader.className = 'loading-overlay';
+    loader.innerHTML = `
+      <div class="loading-content">
+        <div class="loading-spinner"></div>
+        <p class="loading-text">${message}</p>
+      </div>
+    `;
+    document.body.appendChild(loader);
+  }
+
+  // Función para ocultar loader
+  hideLoader() {
+    const loader = document.getElementById('loading-overlay');
+    if (loader) {
+      loader.remove();
+    }
   }
 
   displayQuestion(question, questionIndex, totalQuestions, selectedAnswers = []) {
@@ -330,5 +350,29 @@ export class UI {
 
   onSubmitTest(callback) {
     this.elements.submitTestBtn.addEventListener('click', callback);
+  }
+
+  setupCedulaInput() {
+    const cedulaInput = this.elements.studentIdInput;
+    
+    // Restringir solo a números
+    cedulaInput.addEventListener('input', (e) => {
+      e.target.value = e.target.value.replace(/[^0-9]/g, '');
+    });
+
+    // Prevenir pegado de texto no numérico
+    cedulaInput.addEventListener('paste', (e) => {
+      e.preventDefault();
+      const paste = (e.clipboardData || window.clipboardData).getData('text');
+      const numericValue = paste.replace(/[^0-9]/g, '');
+      e.target.value = numericValue;
+    });
+
+    // Prevenir teclas no numéricas
+    cedulaInput.addEventListener('keypress', (e) => {
+      if (!/[0-9]/.test(e.key) && !['Backspace', 'Delete', 'Tab', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+        e.preventDefault();
+      }
+    });
   }
 }
