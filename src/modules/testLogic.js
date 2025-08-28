@@ -29,13 +29,14 @@ export class TestLogic {
     };
   }
 
-  setStudentInfo(name, id) {
+  setStudentInfo(name, email, id) {
     this.studentName = name.trim();
+    this.studentEmail = email.trim();
     this.studentId = id.trim();
   }
 
   validateStudentInfo() {
-    return this.studentName && this.studentId;
+    return this.studentName && this.studentEmail && this.studentId;
   }
 
   getCurrentQuestion() {
@@ -220,6 +221,7 @@ ${finalPhrase}
 
     const studentData = {
       name: this.studentName,
+      email: this.studentEmail,
       id: this.studentId
     };
 

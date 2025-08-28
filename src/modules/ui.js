@@ -12,6 +12,7 @@ export class UI {
       
       // Formulario de entrada
       studentNameInput: document.getElementById('student-name'),
+      studentEmailInput: document.getElementById('student-email'),
       studentIdInput: document.getElementById('student-id'),
       startTestBtn: document.getElementById('start-test-btn'),
       
@@ -75,7 +76,47 @@ export class UI {
   getStudentInfo() {
     return {
       name: this.elements.studentNameInput.value.trim(),
+      email: this.elements.studentEmailInput.value.trim(),
       id: this.elements.studentIdInput.value.trim()
+    };
+  }
+
+  validateStudentInfo(studentInfo) {
+    const errors = [];
+    
+    // Validar nombre
+    if (!studentInfo.name) {
+      errors.push('El nombre es obligatorio');
+    }
+    
+    // Validar email
+    if (!studentInfo.email) {
+      errors.push('El correo electrónico es obligatorio');
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(studentInfo.email)) {
+        errors.push('El correo electrónico no tiene un formato válido');
+      }
+    }
+    
+    // Validar cédula
+    if (!studentInfo.id) {
+      errors.push('La cédula es obligatoria');
+    } else {
+      // Extraer solo la parte numérica (quitar V-, E-, etc.)
+      const numericId = studentInfo.id.replace(/^[VvEe]-?/, '').trim();
+      
+      // Validar que sea numérica
+      if (!/^\d+$/.test(numericId)) {
+        errors.push('La cédula debe contener solo números después de la letra');
+      } else if (numericId.length < 4) {
+        errors.push('La cédula debe tener al menos 4 dígitos');
+      }
+    }
+    
+    return {
+      isValid: errors.length === 0,
+      errors: errors
     };
   }
 
@@ -270,6 +311,7 @@ export class UI {
 
   clearInputs() {
     this.elements.studentNameInput.value = '';
+    this.elements.studentEmailInput.value = '';
     this.elements.studentIdInput.value = '';
   }
 

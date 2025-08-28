@@ -44,6 +44,16 @@
                 />
               </div>
               <div class="input-group">
+                <label for="student-email" class="input-label">Correo Electrónico:</label>
+                <input
+                  type="email"
+                  id="student-email"
+                  class="input-field"
+                  placeholder="Ej: maria.perez@gmail.com"
+                  required
+                />
+              </div>
+              <div class="input-group">
                 <label for="student-id" class="input-label">Cédula de Identidad:</label>
                 <input
                   type="text"
@@ -51,7 +61,9 @@
                   class="input-field"
                   placeholder="Ej: V-12345678"
                   required
+                  maxlength="20"
                 />
+                <small class="input-help">Formato: V-12345678 (mínimo 4 dígitos después del guión)</small>
               </div>
             </div>
             

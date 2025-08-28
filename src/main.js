@@ -27,13 +27,14 @@ class VocationalTestApp {
 
   startTest() {
     const studentInfo = this.ui.getStudentInfo();
+    const validation = this.ui.validateStudentInfo(studentInfo);
     
-    if (!studentInfo.name || !studentInfo.id) {
-      this.ui.showMessage('Por favor, ingresa tu nombre y cédula para comenzar.');
+    if (!validation.isValid) {
+      this.ui.showMessage(validation.errors.join(' '), 'error');
       return;
     }
 
-    this.testLogic.setStudentInfo(studentInfo.name, studentInfo.id);
+    this.testLogic.setStudentInfo(studentInfo.name, studentInfo.email, studentInfo.id);
     this.ui.showSection('test');
     this.displayCurrentQuestion();
   }

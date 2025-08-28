@@ -23,6 +23,7 @@ export class ApiService {
     try {
       const payload = {
         studentName: studentData.name,
+        studentEmail: studentData.email,
         studentId: studentData.id,
         results: {
           kuderScores: testResults.kuderScores,

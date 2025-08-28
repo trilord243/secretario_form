@@ -132,6 +132,15 @@ body {
   letter-spacing: 0.2px;
 }
 
+.input-help {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.85rem;
+  color: #6b7280;
+  font-style: italic;
+  line-height: 1.4;
+}
+
 /* Form Input Styles */
 input,
 select,
