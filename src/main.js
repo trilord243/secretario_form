@@ -129,12 +129,28 @@ class VocationalTestApp {
     );
   }
 
-  exportResults() {
+  async exportResults() {
     try {
+      // Show loading message
+      this.ui.showMessage('Guardando resultados en Google Sheets...', 'info');
+      
+      // Submit to Google Sheets
+      await this.testLogic.submitResultsToGoogleSheets();
+      
+      // Download local copy
       this.testLogic.downloadResults();
-      this.ui.showMessage('Resultados exportados exitosamente.', 'success');
+      
+      this.ui.showMessage('Resultados guardados en Google Sheets y descargados exitosamente.', 'success');
     } catch (error) {
-      this.ui.showMessage('Error al exportar los resultados. Inténtalo de nuevo.');
+      console.error('Error in exportResults:', error);
+      
+      // If Google Sheets submission fails, still allow local download
+      try {
+        this.testLogic.downloadResults();
+        this.ui.showMessage(`Error al guardar en Google Sheets: ${error.message}. Sin embargo, se descargó una copia local.`, 'warning');
+      } catch (downloadError) {
+        this.ui.showMessage(`Error al exportar los resultados: ${error.message}`, 'error');
+      }
     }
   }
 }

@@ -1,4 +1,5 @@
 import { kuderQuestions, unimetCareers, unimetMinors } from '../data/kuderData.js';
+import { ApiService } from '../services/apiService.js';
 
 export class TestLogic {
   constructor() {
@@ -210,5 +211,41 @@ ${finalPhrase}
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  }
+
+  async submitResultsToGoogleSheets() {
+    if (!this.validateStudentInfo()) {
+      throw new Error('Información del estudiante incompleta');
+    }
+
+    const studentData = {
+      name: this.studentName,
+      id: this.studentId
+    };
+
+    const testResults = {
+      kuderScores: this.kuderScores,
+      topInterests: this.getTopKuderInterests(5),
+      careerRecommendations: this.getCareerRecommendations(),
+      minorRecommendations: this.getMinorRecommendations(),
+      userAnswers: this.userAnswers
+    };
+
+    try {
+      const result = await ApiService.submitTestResults(studentData, testResults);
+      return result;
+    } catch (error) {
+      console.error('Error submitting results to Google Sheets:', error);
+      throw error;
+    }
+  }
+
+  async testBackendConnection() {
+    try {
+      return await ApiService.testConnection();
+    } catch (error) {
+      console.error('Error testing backend connection:', error);
+      throw error;
+    }
   }
 }

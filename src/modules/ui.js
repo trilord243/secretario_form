@@ -61,7 +61,7 @@ export class UI {
     this.elements.messageText.textContent = text;
     
     // Remover clases existentes
-    this.elements.messageBox.classList.remove('error', 'success');
+    this.elements.messageBox.classList.remove('error', 'success', 'info', 'warning');
     
     // Agregar clase según el tipo
     this.elements.messageBox.classList.add(type);
