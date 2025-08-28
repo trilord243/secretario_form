@@ -29,7 +29,6 @@ export class UI {
       topInterestsDisplay: document.getElementById('top-interests-display'),
       careerSuggestions: document.getElementById('career-suggestions'),
       minorSuggestions: document.getElementById('minor-suggestions'),
-      exportResultsBtn: document.getElementById('export-results-btn'),
       
       // Mensajes
       messageBox: document.getElementById('message-box'),
@@ -204,33 +203,52 @@ export class UI {
     
     if (recommendations.length > 0) {
       recommendations.forEach((minor) => {
-        const li = document.createElement('li');
+        const minorCard = document.createElement('div');
+        minorCard.className = 'minor-card';
         
         let subjectsHtml = '';
         if (minor.subjects && minor.subjects.length > 0) {
           subjectsHtml = 
-            `<p class="mt-2 text-sm font-medium" style="color: var(--color-azul-secundario); margin-top: var(--spacing-xs);">Materias:</p>` +
-            `<ul class="list-disc pl-5 text-sm" style="color: var(--color-gris-medio); margin-left: var(--spacing-md);">` +
-            minor.subjects.map((s) => `<li>${s}</li>`).join('') +
-            `</ul>`;
+            `<div class="minor-detail">
+              <h5 class="minor-detail-title">📚 Materias</h5>
+              <ul class="minor-detail-list">
+                ${minor.subjects.map((s) => `<li>${s}</li>`).join('')}
+              </ul>
+            </div>`;
         }
         
         let skillsHtml = '';
         if (minor.job_skills && minor.job_skills.length > 0) {
           skillsHtml =
-            `<p class="mt-2 text-sm font-medium" style="color: var(--color-azul-secundario); margin-top: var(--spacing-xs);">Capacidades Laborales:</p>` +
-            `<ul class="list-disc pl-5 text-sm" style="color: var(--color-gris-medio); margin-left: var(--spacing-md);">` +
-            minor.job_skills.map((s) => `<li>${s}</li>`).join('') +
-            `</ul>`;
+            `<div class="minor-detail">
+              <h5 class="minor-detail-title">💼 Capacidades Laborales</h5>
+              <ul class="minor-detail-list">
+                ${minor.job_skills.map((s) => `<li>${s}</li>`).join('')}
+              </ul>
+            </div>`;
         }
         
-        li.innerHTML = `<span style="font-weight: var(--font-weight-bold);">${minor.name}:</span> ${minor.description}${subjectsHtml}${skillsHtml}`;
-        this.elements.minorSuggestions.appendChild(li);
+        minorCard.innerHTML = `
+          <div class="minor-header">
+            <h4 class="minor-title">${minor.name}</h4>
+            <p class="minor-description">${minor.description}</p>
+          </div>
+          <div class="minor-content">
+            ${subjectsHtml}
+            ${skillsHtml}
+          </div>
+        `;
+        
+        this.elements.minorSuggestions.appendChild(minorCard);
       });
     } else {
-      const li = document.createElement('li');
-      li.textContent = 'No se encontraron sugerencias de minors basadas en tus intereses. Considera explorar todas las opciones de la UNIMET.';
-      this.elements.minorSuggestions.appendChild(li);
+      const noResults = document.createElement('div');
+      noResults.className = 'no-results';
+      noResults.innerHTML = `
+        <p>No se encontraron sugerencias de minors basadas en tus intereses.</p>
+        <p>Considera explorar todas las opciones de la UNIMET.</p>
+      `;
+      this.elements.minorSuggestions.appendChild(noResults);
     }
   }
 
@@ -254,9 +272,5 @@ export class UI {
 
   onSubmitTest(callback) {
     this.elements.submitTestBtn.addEventListener('click', callback);
-  }
-
-  onExportResults(callback) {
-    this.elements.exportResultsBtn.addEventListener('click', callback);
   }
 }

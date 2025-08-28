@@ -23,7 +23,6 @@ class VocationalTestApp {
     this.ui.onNextQuestion(() => this.nextQuestion());
     this.ui.onPreviousQuestion(() => this.previousQuestion());
     this.ui.onSubmitTest(() => this.submitTest());
-    this.ui.onExportResults(() => this.exportResults());
   }
 
   startTest() {
@@ -78,7 +77,7 @@ class VocationalTestApp {
     }
   }
 
-  submitTest() {
+  async submitTest() {
     if (!this.validateCurrentAnswers()) {
       return;
     }
@@ -87,6 +86,18 @@ class VocationalTestApp {
     
     // Calcular resultados
     this.testLogic.calculateKuderScores();
+    
+    // Mostrar mensaje de que se están guardando los datos
+    this.ui.showMessage('Procesando resultados y guardando en Google Sheets...', 'info');
+    
+    // Enviar datos a Google Sheets automáticamente
+    try {
+      await this.testLogic.submitResultsToGoogleSheets();
+      this.ui.showMessage('¡Test completado exitosamente! Resultados guardados en Google Sheets.', 'success');
+    } catch (error) {
+      console.error('Error submitting results:', error);
+      this.ui.showMessage('Test completado. Nota: Error al guardar automáticamente en Google Sheets, pero puedes usar el botón "Exportar Resultados".', 'warning');
+    }
     
     // Mostrar resultados
     this.displayResults();
@@ -129,28 +140,14 @@ class VocationalTestApp {
     );
   }
 
-  async exportResults() {
+  exportResults() {
     try {
-      // Show loading message
-      this.ui.showMessage('Guardando resultados en Google Sheets...', 'info');
-      
-      // Submit to Google Sheets
-      await this.testLogic.submitResultsToGoogleSheets();
-      
-      // Download local copy
+      // Solo descargar copia local (los datos ya se guardaron automáticamente al finalizar el test)
       this.testLogic.downloadResults();
-      
-      this.ui.showMessage('Resultados guardados en Google Sheets y descargados exitosamente.', 'success');
+      this.ui.showMessage('Archivo descargado exitosamente.', 'success');
     } catch (error) {
-      console.error('Error in exportResults:', error);
-      
-      // If Google Sheets submission fails, still allow local download
-      try {
-        this.testLogic.downloadResults();
-        this.ui.showMessage(`Error al guardar en Google Sheets: ${error.message}. Sin embargo, se descargó una copia local.`, 'warning');
-      } catch (downloadError) {
-        this.ui.showMessage(`Error al exportar los resultados: ${error.message}`, 'error');
-      }
+      console.error('Error downloading results:', error);
+      this.ui.showMessage('Error al descargar el archivo de resultados.', 'error');
     }
   }
 }
